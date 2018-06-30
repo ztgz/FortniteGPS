@@ -1,11 +1,11 @@
 import React from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import AboutPage from '../components/AboutPage';
 import GpsPage from '../components/GpsPage';
 import Header from '../components/shared/Header';
 
 const AppRouter = () => (
-    <HashRouter>
+    <BrowserRouter>
         <div>
             <Header />
             <Switch>
@@ -13,7 +13,7 @@ const AppRouter = () => (
                 <Route path="/about" component={AboutPage} exact={true} />
             </Switch>
         </div>
-    </HashRouter>
+    </BrowserRouter>
 );
 
 export default AppRouter;
