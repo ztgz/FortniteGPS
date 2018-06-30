@@ -133,7 +133,7 @@ class Map extends React.Component {
             alertType: 'alert-danger',
             onClick: this.closeAlert,
             visable: this.state.maxPosAlert,
-            text: `Route can only contain ${MAX_POSITIONS} positions.`,
+            text: `Route can at most contain ${MAX_POSITIONS} positions.`,
         };
 
         return (

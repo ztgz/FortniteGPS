@@ -39,7 +39,7 @@ class GpsPage extends React.Component {
             alertType: 'alert-info',
             onClick: this.closeAlert,
             visable: this.state.helpAlertVisable,
-            text: `Click on the map to start creating a route.`,
+            text: `Click on the map above to start creating a route.`,
         };
 
         return (

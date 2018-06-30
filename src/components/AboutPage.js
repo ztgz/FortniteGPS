@@ -7,7 +7,7 @@ const AboutPage = () => (
             <h1>About</h1>
             <p>
                 FortniteGPS is a post game analyse tool to determine the minimum running time 
-                for a specific route. The duration of each route is calulated based off the ingame 
+                for a specific route. The duration of each route is calculated based on the ingame 
                 running speed on flat ground.
             </p>
             <br />
