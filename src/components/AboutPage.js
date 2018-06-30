@@ -12,8 +12,8 @@ const AboutPage = () => (
             </p>
             <br />
             <h1>Contact</h1>
-            <form action="mailto:fortnitegps@arvidzetterberg.se" method="post" enctype="text/plain">
-                To contact fortnite gps please email: fortnitegps@arvidzetterberg.se
+            <form action="mailto:support@fortnitegps.com" method="post" enctype="text/plain">
+                To contact fortnite gps please email: support@fortnitegps.com
                 <button className="btn btn-primary mx-2" type="submite">
                     <i className="fas fa-envelope" /> email
                 </button>
