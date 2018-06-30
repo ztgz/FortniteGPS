@@ -1,0 +1,23 @@
+hr{
+    border: 0.1rem solid white;
+}
+
+.routeOl{
+    list-style-type: upper-roman
+}
+
+.routeLi:hover{
+    background: #ffffff;
+    color: black;
+}
+
+.routeTable{
+    margin: 0 auto;
+}
+
+.routeInformation{
+    background-color: #000000;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+

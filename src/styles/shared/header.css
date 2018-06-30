@@ -1,0 +1,11 @@
+.navLayout{
+    background-color: #220135;
+}
+
+.navLayout .navbar-toggler{
+    border-color: #4e4b4d;
+}
+
+.navbar-toggler{
+    background-color: #353134;
+}

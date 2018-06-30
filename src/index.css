@@ -1,0 +1,12 @@
+body {
+  background: linear-gradient(to right,#401a7c, #230356);
+  color: white;
+  font-family: 'Carter One', cursive;
+  margin: 0;
+  padding: 0;
+
+}
+
+html{
+  background: linear-gradient(to right,#401a7c, #230356);
+}
