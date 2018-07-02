@@ -9,3 +9,7 @@
 .navbar-toggler{
     background-color: #353134;
 }
+
+.navLayout .nav-item .nav-link:hover{
+    color: #ecde10;
+}
