@@ -8,6 +8,7 @@ export const clearPositions = () => ({
     type: 'CLEAR_POSITIONS'
 });
 
-export const calculateRoute = () => ({
-    type: 'CALCULATE_ROUTE'
+export const highlightRoute = id => ({
+    type: 'HIGLIGHT_ROUTE',
+    id
 });

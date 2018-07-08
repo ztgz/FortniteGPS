@@ -1,11 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { highlightRoute } from '../../actions/map';
 import '../../styles/gps-page/routeInformation.css';
 
 const SCALE_Y = 2;
 
 class RouteInformation extends React.Component{
     dubbleDigit = (digit) => digit < 10 ? '0' + digit : digit;
+
+    highlightRouteClicked = (event) => {
+        this.props.dispatch(highlightRoute(event.target.value));
+    }
 
     getAngle = (stage) => {
         const { startPosition, endPosition } = stage;
@@ -44,7 +49,7 @@ class RouteInformation extends React.Component{
                             <hr />
                             <ol className="routeOl">
                                 {this.props.route.stages.map((stage, i) => (
-                                    <li key={`route${i}`} className="pt-1 routeLi">
+                                    <li key={stage.id} className="pt-1 routeLi">
                                         <table className="routeTable">
                                             <tbody>
                                                 <tr>
@@ -58,6 +63,10 @@ class RouteInformation extends React.Component{
                                                 <tr>
                                                     <td align="left"><i className="fas fa-compass"> Direction:</i></td>
                                                     <td align="left">{this.getAngle(stage)}&deg;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i className="fas fa-map-pin"> Highlight:</i></td>
+                                                    <td align="left"><input type="checkbox" checked={stage.highlight} value={stage.id} onClick={this.highlightRouteClicked} readOnly/></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -74,11 +83,6 @@ class RouteInformation extends React.Component{
         return jsx;
     }
 }
-
-
-
-
-
 
 export default connect(
     state => state.map

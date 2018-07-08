@@ -1,15 +1,21 @@
+import uuid from 'uuid';
+
 /* Reducers */
 const mapReducerDefaultState = {
     positions: [],
-    route: null
+    route: null,
+    dirty: false
 }
 
 export default (state = mapReducerDefaultState, action) => {
+    let route;
     switch (action.type) {
         case 'ADD_POSITION':
+            route = addPositionToRoute(state, action.x, action.y);
             return {
                 ...state,
-                positions: [...state.positions, { x: action.x, y: action.y }]
+                positions: [...state.positions, { x: action.x, y: action.y }],
+                route
             };
         case 'CLEAR_POSITIONS':
             return {
@@ -17,11 +23,19 @@ export default (state = mapReducerDefaultState, action) => {
                 positions: [],
                 route: null
             };
-        case 'CALCULATE_ROUTE':
-            const route = getRoute(state.positions);
-            return {
+        case 'HIGLIGHT_ROUTE':
+            route = state.route;
+            const stages = state.route.stages.map( stage => {
+                if( stage.id === action.id){
+                    stage.highlight = !stage.highlight;
+                }
+                return stage;
+            });
+            route.stages = stages;
+            return{
                 ...state,
-                route
+                route,
+                dirty: !state.dirty //update flag to force components to rerender
             }
         default:
             return state;
@@ -36,39 +50,49 @@ const MAP_SQUARE_WIDTH = 100;
 //One square takes 1:15 = 75s
 const DISTANCE_PER_SECOND = MAP_SQUARE_WIDTH / 75;
 
-const getRoute = (positions = []) => {
-    if (positions.length < 2 || positions.length > MAX_POSITIONS) {
-        return null;
+const addSecondsToRoute = (route, seconds) => {
+    route.seconds += seconds;
+    route.minutes += parseInt(route.seconds / 60, 10);
+    route.seconds = parseInt(route.seconds % 60, 10);
+    return route;
+}
+
+const addPositionToRoute = (state,x,y) => {
+    const {positions} = state;
+    let { route } = state;
+    if (positions.length < 1 || positions.length > MAX_POSITIONS) {
+        return route;
     }
-    const completeRoute = {
-        stages: [],
-        seconds: 0,
-        minutes: 0,
-    };
 
-    let totalSeconds = 0;
-    for (let i = 0; i < positions.length - 1; i++) {
-
-        const distance = Math.sqrt( Math.pow(positions[i].x - positions[i+1].x,2) + Math.pow(positions[i].y - positions[i+1].y,2) );
-        const seconds = distance / DISTANCE_PER_SECOND;
-        totalSeconds += seconds;
-        const route = {
-            startPosition: positions[i],
-            endPosition: positions[i + 1],
-            distance,
-            seconds,
-            startSquare: getSquare(positions[i].x, positions[i].y),
-            endSquare: getSquare(positions[i+1].x, positions[i+1].y)
+    if( route  === null){
+        route = {
+            stages: [],
+            seconds: 0,
+            minutes: 0
         };
+    }
 
-        completeRoute.stages.push(route);
-    }  
+    //Calculate new stage to route
+    const startPosition = positions[positions.length-1];
+    const seconds = getDistance(startPosition.x, startPosition.y, x, y) / DISTANCE_PER_SECOND;
+    const stage = {
+        id: uuid(),
+        startPosition,
+        endPosition: {x, y},
+        seconds,
+        startSquare: getSquare(startPosition.x, startPosition.y),
+        endSquare: getSquare(x,y),
+        highlight: false
+    };
+    route.stages.push(stage);
 
-    completeRoute.seconds = parseInt(totalSeconds%60, 10);
-    completeRoute.minutes = parseInt(totalSeconds/60, 10);
+    //Get stage duration to route
+    route = addSecondsToRoute(route, seconds);
+    
+    return route;
+}
 
-    return completeRoute;
-};
+const getDistance = (startX, startY, endX, endY) => Math.sqrt( Math.pow(startX-endX, 2) + Math.pow(startY-endY, 2) );
 
 const getSquare = (x, y) => {
     let square;

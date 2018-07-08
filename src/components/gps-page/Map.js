@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addPosition, calculateRoute } from '../../actions/map';
+import { addPosition } from '../../actions/map';
 import Alert from '../shared/Alert';
 
 const CORDINATES_MAX = 1024;
@@ -40,7 +40,6 @@ class Map extends React.Component {
             const y = parseInt(scale * e.nativeEvent.offsetY, 10);
             //Add position to store and calculate new route
             this.props.dispatch(addPosition(x, y));
-            this.props.dispatch(calculateRoute());
         }
         else {
             this.setState(prevState => {
@@ -77,7 +76,10 @@ class Map extends React.Component {
         ctx.stroke();
     };
 
-    drawLine = (x1, y1, x2, y2, selected = false) => {
+    // drawLine = (x1, y1, x2, y2, selected = false) => {
+    drawLine = (stage) => {
+        const {startPosition, endPosition, highlight} = stage;
+        //Get the canvas
         const canvas = this.refs.canvas;
         const ctx = canvas.getContext("2d");
         //mapCordinates need to be transformed into scale cordinates
@@ -87,24 +89,24 @@ class Map extends React.Component {
         //New style
         ctx.setLineDash([5, 3]);
         ctx.lineWidth = 2;
-        ctx.strokeStyle = selected ? "#FFFF00" : "#FF0000";
+        ctx.strokeStyle = highlight ? "#FFFF00" : "#FF0000";
         //Draw line
         ctx.beginPath();
-        ctx.moveTo(x1 / scale, y1 / scale);
-        ctx.lineTo(x2 / scale, y2 / scale);
+        ctx.moveTo(startPosition.x / scale, startPosition.y / scale);
+        ctx.lineTo(endPosition.x / scale, endPosition.y / scale);
         ctx.stroke();
         //Restore old style
         ctx.restore();
     };
 
     drawPositions = () => {
-        const { positions } = this.props;
+        const { positions, route } = this.props;
         for (let i = 0; i < positions.length; i++) {
             if (positions[i].x !== null && positions[i].y !== null) {
                 const firstCircle = i === 0;
                 this.drawCircle(positions[i].x, positions[i].y, firstCircle);
-                if (!firstCircle) {
-                    this.drawLine(positions[i - 1].x, positions[i - 1].y, positions[i].x, positions[i].y);
+                if (!firstCircle && i-1 < route.stages.length) {
+                    this.drawLine(route.stages[i-1]);
                 }
             }
         }

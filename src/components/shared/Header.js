@@ -12,10 +12,10 @@ const Header = () => (
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                        <NavLink to="/" className="nav-link" exact={true}><i class="fas fa-compass"></i> GPS</NavLink>
+                        <NavLink to="/" className="nav-link" exact={true}><i className="fas fa-compass"></i> GPS</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink to="/about" className="nav-link" exact={true}><i class="fab fa-readme"></i> About</NavLink>
+                        <NavLink to="/about" className="nav-link" exact={true}><i className="fab fa-readme"></i> About</NavLink>
                     </li>
                 </ul>
             </div>

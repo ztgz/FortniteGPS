@@ -5,11 +5,11 @@ hr{
 .routeOl{
     list-style-type: upper-roman
 }
-
+/* 
 .routeLi:hover{
     background: #ffffff;
     color: black;
-}
+} */
 
 .routeTable{
     margin: 0 auto;
